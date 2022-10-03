@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My experiment</title>
+    <script src="jspsych-6.3.1/jspsych.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-html-keyboard-response-dropdown.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-survey-dropdown.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-survey-dropdown-new.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-html-button-response.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-html-button-response-choices.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-visual-array-stimuli-stillimage.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspysch-html-button-response-vertical.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-preload.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-html-slider-response-modi.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-categorize-image.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-survey-multi-select.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-survey-multi-choice.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-survey-text.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-survey-text2.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-survey-text-new.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-html-response-rotate-image-keyboard.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-call-function.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-visual-array-stimuli.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-fullscreen.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-html-slider-response.js"></script>
+    <link href="jspsych-6.3.1/container.css" rel="stylesheet" type="text/css">
+    <link href="jspsych-6.3.1/css/jspsych.css" rel="stylesheet" type="text/css">
+    <link href="jspsych-6.3.1/multimask.css" rel="stylesheet" type="text/css">
+    <link href="jspsych-6.3.1/imsty.css" rel="stylesheet" type="text/css">
+    <link href="jspsych-6.3.1/css/jspsych_visualarray.css" rel="stylesheet" type="text/css"></link>
+    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  </head>
+  <script>
+
+/*------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------*/
+/*---------------------------- PARAMETERS CAN BE CHANGED HERE-------------------------------*/
+
+
+  //  var trialduration = 1250; // duration of each trial, unit: ms
+    var trialduration = 5000; // duration of each trial, unit: ms
+    var stimulitype = 0 // 0: dot ; 1: square
+    var repeti_per_case = 10; // repititions for each participant (of each condition & display)
+    var stim_low = 1; // minimum number of stimuli to be displayed
+    var stim_high = 7; // maximum number of stimuli to be displayed
+    
+
+
+    var reps_total = repeti_per_case * 3 * (stim_high - stim_low + 1) + 21*1; // #repetitions * 3 conditions * all possible distributions of the stimuli
+    var n_trials = reps_total ;
+
+    /* define instructions trial */
+    var instructions = {
+      type: "html-keyboard-response",
+      stimulus: `
+         <p>In this experiment, a game board with 117 cells that contain some pieces will appear. <br>The game board is either occluded by a green mesh or fully visible.</p>
+
+<br>
+  <div style='float: center;'>A fully visible game board: <br> <img  width = 250px src='img/eg_noc.png'></img> </div>
+
+<br>
+  <div style='float: center;'>An occluded game board: <br> <img width = 250px src='img/eg_occ.png'></img> </div>
+  
+
+
+<br>
+<div style='float: center;'><p>The game board will disappear after 1.25 seconds, followed by 1 question whose answer can be selected by dragging the slider.  </p></div>
+
+
+<img width = 850px border =1px src='img/eg_slider.png'></img>
+
+      
+<br>
+        
+        <p>Press any key to begin.</p>
+      `,
+      on_start: function() {
+      // set progress bar to 0 at the start of experiment
+      jsPsych.setProgressBar(0); 
+       },   
+     // post_trial_gap: 2000
+    };
+
+var instructions_eg1 = {
+      type: "html-keyboard-response",
+      stimulus: `
+      <p><b>Example 1</b></p>
+ <div style='float: center;'> <img width = 250px src='img/eg_noc.png'></img> </div>
+
+         <p>In this example, the game board is not occluded at all. Hence, the answer to the question should be 0. </p>
+
+
+  <div style='float: center;'><img  width = 850px border = 1px src='img/eg_slider1.png'></img> </div>
+
+        
+        <p>Press any key to continue.</p>
+      `,
+      on_start: function() {
+      // set progress bar to 0 at the start of experiment
+      jsPsych.setProgressBar(0); 
+       },   
+     // post_trial_gap: 2000
+    };
+
+var instructions_eg2 = {
+      type: "html-keyboard-response",
+      stimulus: `
+      <p><b>Example 2</b></p>
+ <div style='float: center;'> <img class = "ims" width = 250px height = 325 src='img/greenbacknewereg.png'></img> </div>
+
+         <p>In this example, the game board is fully occluded. Hence, the answer to the question should be 117. </p>
+
+
+  <div style='float: center;'><img  width = 850px border = 1px src='img/eg_slider2.png'></img> </div>
+
+        
+        <p>Press any key to begin.</p>
+      `,
+      on_start: function() {
+      // set progress bar to 0 at the start of experiment
+      jsPsych.setProgressBar(0); 
+       },   
+     // post_trial_gap: 2000
+    };
+
+
+    var welcome2 = {
+     type: "html-keyboard-response",
+     stimulus: "Please read the study information, and complete the consent form before you start. <p><i>Press any key to continue.</i></p>",
+     data: {stimulus: 'NaN'}
+    };
+
+    // get their consent
+    var consent = {
+        type: 'survey-multi-select',
+        preamble: "<p><b>Please read the study information, and tick the consent boxes before you start.</b></p>"+
+        "<p align=left style='text-align:left'><b>General information and inclusion criteria</b></p>" +
+        "<p align=left style='text-align:left'>Thank you for your interest in our study on visual perception! We investigate in this study how human perception of numerotisy is influenced by occlusion.</p>"+
+         "<p align=left style='text-align:left'>You are invited to take part if you:</p>" +
+        "<p align=left style='text-indent:+18.0pt'>- are an adult between 18 and 45 years of age</p>"+
+        "<p align=left style='text-indent:+18.0pt'>- have good eyesight (glasses and contact lenses are fine)</p>"+
+        "<p align=left style='text-indent:+18.0pt'>- are proficient in English</p>" +
+        "<p align=left style='text-align:left'>Participation in our study is voluntary. </p>"+
+        "<p align=left style='text-align:left'><b>Task</b></p>"+
+        "<p align=left style='text-align:left'>Here, we give a brief explanation of the task, so you can make an informed decision about whether you want to take part. If you decide to participate, we will ask you: </p>"+
+        "<p align=left style='text-indent:+18.0pt'>- to provide basic demographic information (your age, gender and visual aids)</p>"+
+        "<p align=left style='text-indent:+18.0pt'>- to look at visual objects on your screen</p>"+
+        "<p align=left style='text-indent:+18.0pt'>- to provide ratings on how you perceive these objects.</p>"+
+        "<p align=left style='text-align:left'><b>Duration and reimbursement</b></p>"+
+        "<p align=left style='text-align:left'>The task should take about 25 minutes to complete. You will be able to proceed at your own pace. </p>"+
+        "<p align=left style='text-align:left'>At the end of the task, you will get a completion link, taking you back to prolific.co to claim a 7.5 pound reimbursement (corresponding to ~7.5 pounds/h). </p>"+
+        "<p align=left style='text-align:left'>If the experiment was aborted before the end of the task, you might receive partial reimbursement (corresponding to ~7.5 pounds/h) if you send us an e-mail with your Prolific.co ID. </p>"+
+        "<p align=left style='text-align:left'><b>Potential Risks and benefits</b></p>"+
+        "<p align=left style='text-align:left'>We are not aware of any risks associated with completing this task. You will have no other benefit from participating, but you will help basic research on human perception (thank you!).</p>"+
+        "<p align=left style='text-align:left'>Participation is strictly voluntary and you can freely abort the task at any point.</p>"+
+        "<p align=left style='text-align:left'><b>Data protection</b></p>"+
+        "<p align=left style='text-align:left'>Your perceptual ratings and demographic data will remain strictly anonymous. We will ask you to provide your prolific.co ID to avoid double participation, but this will never be linked to your perceptual responses and demographic data. Prolific.co knows your identity and will know that you took part in the study, but not which data you provided. We will not know your identity. The anonymous data you provide will be analyzed, stored and published for basic research on human perception. Given we do not collect personally identifiable data, data protection legislation like the General Data Protection Regulation (DSGVO) or Hessisches Datenschutz- und Informationsfreiheitsgesetz do not apply to our study. </p>"+
+        "<p align=left style='text-align:left'><b>Contact</b></p>" +
+        "<p align=left style='text-align:left'>If you have any questions or other concerns, you can contact the following people:</p>" +
+        "<p align=left style='text-align:left'>Project leader. Name: Prof. Dr. Alexander Schuetz</p>" +
+        "<p align=left style='text-align:left'>Email: a.schuetz@uni-marburg.de</p>",
+
+      questions: [
+        {
+          prompt: "<p><b>By clicking this checkbox, I confirm that I have read and understood </p>" + "<p> the information above and would like to take part in the study.</b>",
+          options: ["Check here"],
+          horizontal: false,
+          required: true,
+          name: 'Consent1',
+          required_message: 'You must check all boxes to continue.'
+        },
+        {
+          prompt: "<p><b>By clicking this checkbox, I agree to the storage, processing and publication of the  </p>" + "<p> anonymous data I provide.</b>",
+          options: ["Check here"],
+          horizontal: false,
+          required: true,
+          name: 'Consent2',
+          required_message: 'You must check all boxes to continue.'
+        },
+        {
+          prompt: "<p><b>By clicking this checkbox, I confirm that I am at least 18 years and not more than 45 years old,  </p>" + "<p> have good (or corrected) eyesight and am proficient in English.</b>",
+          options: ["Check here"],
+          horizontal: false,
+          required: true,
+          name: 'Consent3',
+          required_message: 'You must check all boxes to continue.'
+        }
+      ],
+      randomize_question_order: false
+    };
+//and how sure you are about those ratings
+// and take breaks
+
+    var demog = {
+      type: "html-keyboard-response",
+      stimulus:
+      "<p>Please answer a few demographic questions before you begin.</p>" +
+      "</div>"+
+      "<p><i>Press any key to continue.</i></p>",
+      data: {stimulus: 'NaN'}
+    };
+
+    // ask them a bit of demographic info
+    var survey_deminfo = {
+      type: 'survey-text2',
+      questions: [
+        {prompt: "Age", name: 'Age', columns: 4},//placeholder: "25", 
+        {prompt: "Sex", name: 'Sex', placeholder: "M/F/Other"},
+        {prompt: "Do you have any vision impairment?", name: 'Visionprobs', placeholder: "Leave blank if none"}
+      ],
+    };
+    //placeholder: 'mm/dd/yyyy', required: true
+
+
+    /* generate a random subject ID with 15 characters */
+    var subject_id = jsPsych.randomization.randomID(15);
+    // get from prolific
+    // var subject_id_pf = subject_id + "_number_finished_trials";
+    var subject_id_pf = jsPsych.data.getURLVariable('PROLIFIC_PID');
+
+
+    /* the last page, information shown to the participant in the end */
+    var conclusion = {
+        type: 'html-keyboard-response',
+        stimulus: '<div style="font-size:20px;">This task is over. Thank you for your participation in this task. <br><br>Please call the Research Assistant.</div>',
+        choices: jsPsych.NO_KEYS
+      }
+
+    var final_trial = {
+      type: 'html-keyboard-response',
+      stimulus: `<p>You've finished the last task. Thanks for participating!</p>
+        <p><a href="https://app.prolific.co/submissions/complete?cc=8E48C111">Click here to return to Prolific and complete the study</a>.</p>`,
+      choices: "NO_KEYS"
+    }
+
+    /*------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------*/
+
+
+    randomize = true // present different set sizes in random order. if false, set sizes will be presented in ascending order
+    file_name = null//"myfile" // file name for data file. if null, a default name consisting of the participant ID and a unique number is chosen.
+    local = true 
+
+
+    /* create timeline */
+    var timeline = [];
+    /* preload images */
+    var preload = {
+      type: 'preload',
+      images: ['img/sq2.png', 'img/sq4.png',
+               'img/clr_s1_p1.png', 'img/oc_s1_p1.png','img/noc_s1_p1.png',
+               'img/clr_s1_p2.png', 'img/oc_s1_p2.png','img/noc_s1_p2.png',
+               'img/clr_s2_p1.png', 'img/oc_s2_p1.png','img/noc_s2_p1.png',
+               'img/clr_s2_p2.png', 'img/oc_s2_p2.png','img/noc_s2_p2.png',
+               'img/clr_s3_p1.png', 'img/oc_s3_p1.png','img/noc_s3_p1.png',
+               'img/clr_s3_p2.png', 'img/oc_s3_p2.png','img/noc_s3_p2.png',
+               'img/clr_s4_p1.png', 'img/oc_s4_p1.png','img/noc_s4_p1.png',
+               'img/clr_s4_p2.png', 'img/oc_s4_p2.png','img/noc_s4_p2.png',
+               'img/clr_s5_p1.png', 'img/oc_s5_p1.png','img/noc_s5_p1.png',
+               'img/clr_s5_p2.png', 'img/oc_s5_p2.png','img/noc_s5_p2.png',
+               'img/clr_s6_p1.png', 'img/oc_s6_p1.png','img/noc_s6_p1.png',
+               'img/clr_s6_p2.png', 'img/oc_s6_p2.png','img/noc_s6_p2.png',
+               'img/clr_s7_p1.png', 'img/oc_s7_p1.png','img/noc_s7_p1.png',
+               'img/clr_s7_p2.png', 'img/oc_s7_p2.png','img/noc_s7_p2.png',
+               ]
+    }
+    var images = ['img/clr_s1_p1.png', 'img/oc_s1_p1.png','img/noc_s1_p1.png',
+               'img/clr_s1_p2.png', 'img/oc_s1_p2.png','img/noc_s1_p2.png',
+               'img/clr_s2_p1.png', 'img/oc_s2_p1.png','img/noc_s2_p1.png',
+               'img/clr_s2_p2.png', 'img/oc_s2_p2.png','img/noc_s2_p2.png',
+               'img/clr_s3_p1.png', 'img/oc_s3_p1.png','img/noc_s3_p1.png',
+               'img/clr_s3_p2.png', 'img/oc_s3_p2.png','img/noc_s3_p2.png',
+               'img/clr_s4_p1.png', 'img/oc_s4_p1.png','img/noc_s4_p1.png',
+               'img/clr_s4_p2.png', 'img/oc_s4_p2.png','img/noc_s4_p2.png',
+               'img/clr_s5_p1.png', 'img/oc_s5_p1.png','img/noc_s5_p1.png',
+               'img/clr_s5_p2.png', 'img/oc_s5_p2.png','img/noc_s5_p2.png',
+               ];
+
+    var preload_instru = {
+      type: 'preload',
+      images: ['img/eg_slider.png','img/eg_slider1.png','img/eg_slider2.png','img/greenbacknewereg.png']
+    };
+
+    var shapes = [];
+    shapes.push(1); shapes.push(2);//shapes.push(3);//shapes.push(4);
+    var randshapes = jsPsych.randomization.sampleWithReplacement(shapes,reps_total) ;
+
+    /* the number of stimuli on both sides */
+    var stimuliArr_r = [];
+    var stimuliArr = []; 
+    var rr = stim_high + stim_low;
+
+
+    var possible_nums = [];
+   // possible_nums.push(5);
+    possible_nums.push(1);possible_nums.push(2);possible_nums.push(3);possible_nums.push(4);
+    possible_nums.push(5);possible_nums.push(6);possible_nums.push(7);//possible_nums.push(13);possible_nums.push(14);
+    //possible_nums.push(15);
+
+
+//var possible_nums = jsPsych.randomization.sampleWithoutReplacement(possible_nums,possible_nums.length) ;
+
+/*
+    for (var i = 0; i < 11; i++){
+      for (var t = 0; t < repeti_per_case * 2; t++){
+        var shapn = randshapes[i];
+         stimuliArr.push([possible_nums[i],1,true, 10, 1, 1, shapn]); 
+         stimuliArr.push([possible_nums[i],2,true, 10, 2, 1, shapn]); 
+         stimuliArr.push([possible_nums[i],3,true, 10, 3, 1, shapn]);
+      }
+    }
+*/
+
+
+for (var t = 0; t < repeti_per_case * 1; t++){
+     for (var i = 0; i < 7; i++){   
+//var shapn = 1;
+//stimuliArr.push([5,  1, true, 10, 1, 1, shapn]); // size, scale, xx, condition (1: occ) 
+
+         var shapn = randshapes[i];
+         stimuliArr.push([possible_nums[i],1,   true, 10, 1, 1, shapn]); // size, scale, xx, condition (1: occ) 
+         stimuliArr.push([possible_nums[i],0.75,true, 10, 1, 1, shapn]); 
+         stimuliArr.push([possible_nums[i],0.5, true, 10, 1, 1, shapn]);
+      }
+    }
+for (var t = 0; t < 1; t++){
+     for (var i = 0; i < 7; i++){   
+        var shapn = randshapes[i];
+         stimuliArr.push([possible_nums[i],1,   true, 10, 2, 1, shapn]); // size, scale, xx, condition (2: no) 
+         stimuliArr.push([possible_nums[i],0.75,true, 10, 2, 1, shapn]); 
+         stimuliArr.push([possible_nums[i],0.5, true, 10, 2, 1, shapn]);
+      }
+    }
+
+
+
+    /* randomize the stimuli */
+    var stimuliDemoArray = [];
+    var stimuliDemoArray_r = [];
+    if (randomize){
+    var stimuliArray_all = jsPsych.randomization.sampleWithoutReplacement(stimuliArr,stimuliArr.length) ;
+    }
+
+//var stimuliArray_all  = stimuliArr;
+
+    var stimuliArray_still = [];
+    // fake trials
+    var fak = [];
+    for (var i = 0; i < 22; i++){
+             fak.push([1,0,false, 1, 0, -1, i]);
+          }
+    // insert fake trials 
+    for (var f = 0; f<=22; f++){
+            stimuliArray_still.push(fak[f]);
+            //stimuliArray_still.push(fak[f]);
+            // real trials
+            for (var i = 30*f; i< 30*f + 30; i++){
+             // stimuliArray_still.push(stimuliArray_all[i]);
+              stimuliArray_still.push(stimuliArray_all[i]);
+            }
+          }
+
+/////
+/*
+var stimuliArray_stilln = [];
+for (var tt = 0; tt < stimuliArray_still.length; tt++){
+  if (stimuliArray_still[tt][6]!=5 && stimuliArray_still[tt][6]!= 15){
+    stimuliArray_stilln.push(stimuliArray_still[tt]);
+  }
+}
+*/
+
+
+//////
+     var stimuliArray_still = stimuliArray_all;
+    // var stimuliArray_still = stimuliArr;
+
+   //var stimuliArray_still2 = stimuliArray_still;
+
+    /* define fixation point */
+    var fixation2 = {
+      type: 'html-keyboard-response',
+      stimulus: '<div style="font-size:60px;">+ <p></p></div>',
+      choices: jsPsych.ALL_KEYS,
+      prompt: 'Press any key to begin.',
+      css_classes: ['hide_cursor'],
+      
+    }
+
+    /* define trial - occluder */
+    var a = -1; 
+    var b = -1;
+    var c = -1;
+    var d = -1;
+    var e = -1;
+    var f = -1;
+    var reward_pre={
+      type: "visual-array-stimuli-stillimage",
+      set_size: function(){
+        a+=1
+        //return stimuliArray[n][0]
+        return stimuliArray_still[a][0]
+      },
+      set_size_r: function(){
+        f+=1
+        //return stimuliArray[n][0]
+        return stimuliArray_still[f][3]
+      },
+      condition: function(){
+        b+=1
+        return stimuliArray_still[b][4]
+      },
+      frac: function(){
+        c+=1
+        return stimuliArray_still[c][1]
+      },
+      occ_num: function(){
+        d+=1
+        return stimuliArray_still[d][6]
+      },
+      real_trial:function(){
+        e+=1
+        return stimuliArray_still[e][5]
+      },
+      target_size: [21, 21],
+      trial_duration: 300,
+      stimuli_type: stimulitype, 
+      css_classes: ['hide_cursor'],
+
+    }
+      
+
+    /* define trial - game board */
+    var a1 = -1; 
+    var b1 = -1;
+    var c1 = -1;
+    var d1 = -1;
+    var e1 = -1;
+    var f1 = -1;
+    var reward={
+      type: "visual-array-stimuli",
+      set_size: function(){
+        a1+=1
+        return stimuliArray_still[a1][0]
+      },
+      set_size_r: function(){
+        f1+=1
+        return stimuliArray_still[f1][3]
+      },
+      condition: function(){
+        b1+=1
+        return stimuliArray_still[b1][4]
+      },
+      frac: function(){
+        c1+=1
+        return stimuliArray_still[c1][1]
+      },
+      occ_num: function(){
+        d1+=1
+        return stimuliArray_still[d1][6]
+      },
+      real_trial:function(){
+        e1+=1
+        return stimuliArray_still[e1][5]
+      },
+      target_size: [21, 21],
+      trial_duration: trialduration,
+      stimuli_type: stimulitype, 
+      css_classes: ['hide_cursor'],
+      on_finish: function() {
+        jsPsych.data.addProperties({allfinishedtrials: (jsPsych.getProgressBarCompleted() + (1/n_trials)) * n_trials} );           
+        saveData(subject_id, jsPsych.data.get().csv());
+        saveData(subject_id_pf, jsPsych.data.get().select('allfinishedtrials').min());  
+       
+      },
+    }
+
+    /* Q1: left or right? */
+    var askleftright_new = {
+      type: 'html-button-response',
+      stimulus: 'Which game board has more pieces on it? <p></p> ',
+      choices: ['Left','Right'],
+      on_finish: function() {           
+        saveData(subject_id, jsPsych.data.get().csv()); 
+        saveData(subject_id_pf, jsPsych.data.get().select('allfinishedtrials').min()); 
+        var curr_progress_bar_value = jsPsych.getProgressBarCompleted(); 
+        jsPsych.setProgressBar( curr_progress_bar_value + (1/n_trials) );  
+    },
+    };
+
+
+    /* Q2: How about the confidence? */
+    var askconfidence_new = {
+      type: 'html-button-response-vertical',
+      stimulus: 'How confident are you about your judgment? <p></p> ',
+      choices: ['High','Low'],
+      on_finish: function() {
+      jsPsych.data.addProperties({allfinishedtrials: (jsPsych.getProgressBarCompleted() + (1/n_trials)) * n_trials} );
+      var curr_progress_bar_value = jsPsych.getProgressBarCompleted();            
+      saveData(subject_id, jsPsych.data.get().csv()); 
+      saveData(subject_id_pf, jsPsych.data.get().select('allfinishedtrials').min());
+      jsPsych.setProgressBar( curr_progress_bar_value + (1/n_trials) );
+       },
+    };
+
+
+
+
+   
+
+  // this function saves data
+  function saveData(name, data){
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({filename: name, filedata: data}));  
+    }
+  
+  function saveUserID(name, tNumber){
+    var ids = [name, tNumber];
+    const ascsv = ids.join(',')
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'write_data_cl.php'); // 'write_data.php' is the path to the php file described above.
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({filename: name, filedata: ascsv}));
+  } 
+
+
+
+    var enter_fullscreen = {
+      type: 'fullscreen',
+      fullscreen_mode: true
+    }
+
+    var exist_fullscreen = {
+      type: 'fullscreen',
+      fullscreen_mode: false
+    }
+
+
+    
+
+    var post_survey = {
+     type: 'survey-multi-choice',
+     preamble: "Please answer the questions below.",
+     questions: [
+      {
+        prompt: "1. Did you have the feeling that sometimes the game board was occluded by the green mesh?",
+        options: ["Yes", "No"],
+        horizontal: true,
+        required: true,
+        name: 'Q1',
+       // required_message: 'You must check all boxes to continue.'
+      },
+      {
+        prompt: "2. Did you have the feeling that sometimes the green mesh was occluded by the game board?",
+        options: ["Yes", "No"],
+        horizontal: true,
+        required: true,
+        name: 'Q2',
+       // required_message: 'You must check all boxes to continue.'
+      },
+      //{
+      //  prompt: "<p align=left style='text-align:left'>3. As what would you describe the green object that was visible on the screen?</p>",
+       // options: ["a background", "a frame", "an occlusion"],
+       // horizontal: true,
+       // required: true,
+       // name: 'Q3',
+       // required_message: 'You must check all boxes to continue.'
+      //},
+      {
+        prompt: "3. In your opinion, could some of the pieces have been behind the green mesh?",
+        options: ["Yes", "No"],
+        horizontal: true,
+        required: true,
+        name: 'Q4',
+       // required_message: 'You must check all boxes to continue.'
+      },
+    ],
+    randomize_question_order: false,
+    on_finish: function() {
+            saveData(subject_id, jsPsych.data.get().csv()); 
+            saveData(subject_id_pf, jsPsych.data.get().select('allfinishedtrials').min());   
+        },
+    };
+
+
+
+    /* Direct question: drop-down list*/ 
+    var page_1_options = ["0", "1", "2", "3", "4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60",
+                                         "61","62","63","64","65","66","67","68","69","70",
+                                         "71","72","73","74","75","76","77","78","79","80",
+                                         "81","82","83","84","85","86","87","88","89","90",
+                                         "91","92","93","94","95","96","97","98","99","100",
+                                         "101","102","103","104","105","106","107","108","109","110",
+                                         "111","112","113","114","115","116","117"];
+    
+    var multi_choice_block = {
+      type: 'survey-dropdown',
+      preamble: '',
+      questions: [
+        {prompt: "How many pieces were completely or partially visible on the game board?", name:'number_choice',options: page_1_options, required:true},  
+      ],
+      on_finish: function() {
+      jsPsych.data.addProperties({allfinishedtrials: (jsPsych.getProgressBarCompleted() + (1/n_trials)) * n_trials} );
+      var curr_progress_bar_value = jsPsych.getProgressBarCompleted();            
+      saveData(subject_id, jsPsych.data.get().csv()); 
+      saveData(subject_id_pf, jsPsych.data.get().select('allfinishedtrials').min());
+     // jsPsych.setProgressBar( curr_progress_bar_value + (1/n_trials) );
+       },
+    };
+
+    var ask_whether_occluded = {
+      type: 'html-button-response',
+      stimulus: 'Were parts of the game board hidden by the green mesh? <p></p> ',
+      choices: ['Yes','No'],
+      required: true,
+      on_finish: function() {           
+        saveData(subject_id, jsPsych.data.get().csv()); 
+        saveData(subject_id_pf, jsPsych.data.get().select('allfinishedtrials').min());   
+    },
+    };
+
+
+      var multi_choice_block_2 = {
+      type: 'survey-dropdown',
+      preamble: '',
+      questions: [
+        {prompt: "How many pieces were completely hidden behind the green mesh?", name:'number_choice',options: page_1_options, required:true},  
+      ],
+      on_finish: function() {
+      jsPsych.data.addProperties({allfinishedtrials: (jsPsych.getProgressBarCompleted() + (1/n_trials)) * n_trials} );
+      var curr_progress_bar_value = jsPsych.getProgressBarCompleted();            
+      saveData(subject_id, jsPsych.data.get().csv()); 
+      saveData(subject_id_pf, jsPsych.data.get().select('allfinishedtrials').min());
+      jsPsych.setProgressBar( curr_progress_bar_value + (1/n_trials) );
+       },
+    };  
+
+// Old Question: Given the number of visible pieces, how many pieces might be hidden behind the green mesh?
+
+
+var q_slider = {
+    type: 'html-slider-response-modi',
+    stimulus: `<div style="width:700px;">\
+        <p>What is the maximum number of pieces that might be behind the occluder?</p>\
+        </div>`,
+    require_movement: true,
+    labels: ['<div>0<br>(game board not occluded at all)</div>', '<div>40</div>','<div>80</div>','<div>117<br>(game board completely occluded)</div>'],
+    on_finish: function() {
+      jsPsych.data.addProperties({allfinishedtrials: (jsPsych.getProgressBarCompleted() + (1/n_trials)) * n_trials} );
+      var curr_progress_bar_value = jsPsych.getProgressBarCompleted();            
+      saveData(subject_id, jsPsych.data.get().csv()); 
+      saveData(subject_id_pf, jsPsych.data.get().select('allfinishedtrials').min());
+      jsPsych.setProgressBar( curr_progress_bar_value + (1/n_trials) );
+       },
+};
+
+
+
+
+var q_slider_k = {
+    //type: 'html-slider-response-modi-tilt2',
+    type: 'html-response-rotate-image-keyboard',
+    stimulus: `<div style="width:700px;">\
+        <p>What is the average direction?</p>\
+        </div>`,
+    require_movement: true,
+    labels: ['<div>-180</div>', '<div>-90</div>','<div>0</div>','<div>90</div>','<div>180</div>'],
+    on_finish: function() {
+      jsPsych.data.addProperties({allfinishedtrials: (jsPsych.getProgressBarCompleted() + (1/n_trials)) * n_trials} );
+      var curr_progress_bar_value = jsPsych.getProgressBarCompleted();            
+      saveData(subject_id, jsPsych.data.get().csv()); 
+      saveData(subject_id_pf, jsPsych.data.get().select('allfinishedtrials').min());
+      jsPsych.setProgressBar( curr_progress_bar_value + (1/n_trials) );
+       },
+};
+
+
+var multi_choice_block_hidpiece = {
+      type: 'survey-dropdown',
+      preamble: '',
+      questions: [
+        {prompt: "What is the maximum number of pieces that might be behind the occluder?", name:'number_choice',options: page_1_options, required:true},  
+      ],
+      on_finish: function() {
+      jsPsych.data.addProperties({allfinishedtrials: (jsPsych.getProgressBarCompleted() + (1/n_trials)) * n_trials} );
+      var curr_progress_bar_value = jsPsych.getProgressBarCompleted();            
+      saveData(subject_id, jsPsych.data.get().csv()); 
+      saveData(subject_id_pf, jsPsych.data.get().select('allfinishedtrials').min());
+      jsPsych.setProgressBar( curr_progress_bar_value + (1/n_trials) );
+       },
+    }; 
+
+
+
+    /* report technical problem */
+    var tech_q = {
+      type: "survey-text",
+      questions: [
+        {prompt: 'Did you encounter any technical issues during the experiment? Did you notice anything unusual?</br> If so, please specify below:',rows: 5}
+      ]
+    }
+
+    /*--------------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------------*/
+
+    /* main procedure */
+    var demo_procedure = {  
+    //  timeline: [ fixation2,  reward_pre, reward, multi_choice_block,ask_whether_occluded, multi_choice_block_2],
+   
+    timeline: [ fixation2,   reward_pre, reward,  q_slider],
+      timeline: [ reward],
+      repetitions: reps_total ,
+    }
+
+//multi_choice_block_hidpiece,
+
+    /* full procedure */
+    var full_procedure = {
+   //     timeline: [preload, preload_instru , enter_fullscreen, welcome2, consent, demog, survey_deminfo , instructions, instructions_eg1,instructions_eg2, demo_procedure, exist_fullscreen ],
+    
+      timeline: [ preload, demo_procedure],
+    }
+
+
+  //  timeline.push(q_slider)
+//timeline.push(instructions)
+//timeline.push(instructions_eg1)
+//timeline.push(instructions_eg2)
+//timeline.push(multi_choice_block_hidpiece)
+
+
+
+//timeline.push(enter_fullscreen)
+timeline.push(q_slider_k)
+  //  timeline.push(full_procedure)
+   // timeline.push(post_survey) 
+    timeline.push(tech_q)
+    timeline.push(final_trial)
+
+
+    /* start the experiment */
+    jsPsych.init({
+      timeline: timeline,
+      preload_images: images,
+      show_progress_bar: true,
+      auto_update_progress_bar: false,
+
+      on_finish: function(){
+                  saveData(subject_id, jsPsych.data.get().csv());
+                  saveData(subject_id_pf, jsPsych.data.get().select('allfinishedtrials').min());
+                          },
+
+      on_close: function(){
+                  saveData(subject_id, jsPsych.data.get().csv());
+                  saveData(subject_id_pf, jsPsych.data.get().select('allfinishedtrials').min());        
+      }
+
+      /////// --- http://localhost/~hui/experiment.html
+    });
+  </script>
+</html>
