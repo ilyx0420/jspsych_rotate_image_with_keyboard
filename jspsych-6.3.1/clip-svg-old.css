@@ -1,0 +1,6 @@
+.clip-svg-old {
+  clip-path: url(#myClip);
+  position: relative;
+  top: 0;
+  left: var(--imright_posright);
+}

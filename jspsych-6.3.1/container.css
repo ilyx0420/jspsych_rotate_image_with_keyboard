@@ -1,0 +1,36 @@
+div.container {
+    display: inline-block;
+}
+#rectangular {
+    -webkit-clip-path: inset(30px 10px 30px 10px);
+    clip-path: inset(30px 10px 30px 10px);
+}
+#circle {
+  /*  -webkit-clip-path: circle(75px at 50% 50%);
+    clip-path: circle(75px at 50% 50%)*/
+   -webkit-clip-path: circle(35px at 30% 30%);
+    clip-path: circle(35px at 30% 20%); 
+  /*  clip-path: url(#svgPath); */
+}
+
+#circle2 {
+  /*  -webkit-clip-path: circle(75px at 50% 50%);
+    clip-path: circle(75px at 50% 50%)*/
+  /* -webkit-clip-path: circle(25px at 40% 40%);
+    clip-path: circle(25px at 40% 40%); */
+      -webkit-clip-path:url(#myClip); 
+    clip-path: url(#myClip); 
+}
+
+#ellipse {
+    -webkit-clip-path: ellipse(75px 50px at 50% 50%);
+    clip-path: ellipse(75px 50px at 50% 50%);
+}
+#polygon {
+    -webkit-clip-path: polygon(50% 0, 100% 38%, 81% 100%, 19% 100%, 0 38%);
+    clip-path: polygon(50% 0, 100% 38%, 81% 100%, 19% 100%, 0 38%);
+}
+
+.clipped {
+  clip-path: url(#blob);
+}

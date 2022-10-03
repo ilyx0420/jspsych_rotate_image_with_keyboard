@@ -1,0 +1,131 @@
+.backleft {
+  position: relative;
+  top: 0;
+  left: 0;
+
+}
+.backright {
+  position: relative;
+  top: 0;
+  left: 300;
+}
+.imageleft {
+  position: absolute;
+  top: var(--imleft_postop);
+ left: var(--imleft_posleft); 
+ filter: drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5));
+}
+.imageright {
+  position: absolute;
+  top: 0;
+  left: var(--imright_posleft);
+}
+.clip-svg {
+  clip-path: url(#myClip);
+  position: absolute;
+  top: var(--mask_postop);
+  left: var(--mask_posleft);
+}
+.clip-svg2 {
+  clip-path: url(#myClip2);
+  position: absolute;
+  top: var(--mask_postop);
+  left: var(--mask_posleft);
+}
+.clip-svg3 {
+  clip-path: url(#myClip3);
+  position: absolute;
+  top: var(--mask_postop);
+  left: var(--mask_posleft);
+}
+.imagesub {
+  position: absolute;
+  top: var(--imsub_postop) ;
+ left: var(--imsub_posleft); 
+}
+.imagesub_shade {
+  position: absolute;
+  top: var(--imsub_postop) ;
+ left: var(--imsub_posleft); 
+ filter: drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5));
+}
+.ims {
+  position: relative;
+filter: drop-shadow(6px 6px 3px rgba(20, 0, 0, 0.5));
+}
+.imstyle1 {
+  position: absolute;
+  top: var(--imleft_postop);
+ left: var(--imleft_posleft); 
+filter: drop-shadow(6px 6px 3px rgba(20, 0, 0, 0.5));
+}
+.imstyle09 {
+  position: absolute;
+  top: var(--imleft_postop);
+ left: var(--imleft_posleft); 
+filter: drop-shadow(5.4px 5.4px 3px rgba(20, 0, 0, 0.5));
+}
+.imstyle08 {
+  position: absolute;
+  top: var(--imleft_postop);
+ left: var(--imleft_posleft); 
+filter: drop-shadow(4.8px 4.8px 3px rgba(20, 0, 0, 0.5));
+}
+.imstyle07 {
+  position: absolute;
+  top: var(--imleft_postop);
+ left: var(--imleft_posleft); 
+filter: drop-shadow(4.2px 4.2px 3px rgba(20, 0, 0, 0.5));
+}
+.imstyle06 {
+  position: absolute;
+  top: var(--imleft_postop);
+ left: var(--imleft_posleft); 
+filter: drop-shadow(3.6px 3.6px 3px rgba(20, 0, 0, 0.5));
+}
+.imstyle05 {
+  position: absolute;
+  top: var(--imleft_postop);
+ left: var(--imleft_posleft); 
+filter: drop-shadow(3px 3px 3px rgba(20, 0, 0, 0.5));
+}
+.imstyle04 {
+  position: absolute;
+  top: var(--imleft_postop);
+ left: var(--imleft_posleft); 
+filter: drop-shadow(2.4px 2.4px 3px rgba(20, 0, 0, 0.5));
+}
+.imstyle03 {
+  position: absolute;
+  top: var(--imleft_postop);
+ left: var(--imleft_posleft); 
+filter: drop-shadow(1.8px 1.8px 3px rgba(20, 0, 0, 0.5));
+}
+.imstyle02 {
+  position: absolute;
+  top: var(--imleft_postop);
+ left: var(--imleft_posleft); 
+filter: drop-shadow(1.2px 1.2px 3px rgba(20, 0, 0, 0.5));
+}
+.imstyle01 {
+  position: absolute;
+  top: var(--imleft_postop);
+ left: var(--imleft_posleft); 
+filter: drop-shadow(0.6px 0.6px 3px rgba(20, 0, 0, 0.5));
+}
+
+.mybutton {
+  background-color: white; /* Green #4CAF50*/
+  border: none;
+  margin: 10pt;
+  color: black;
+  border-radius: 8px;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+}
+.hide_cursor {
+    cursor: none;
+}

@@ -1,0 +1,26 @@
+#parent {
+    display: flex;
+    justify-content: center;
+    align-items :center;
+    height: 100vh;
+    width: 100vh;
+   /* background: linear-gradient(90deg, black 50%, yellow 50%);*/
+ }
+ .multiple_mask{
+    height: 200px;
+    width: 200px;
+    background: red;
+    clip-path: circle(35px at 30% 30%);/*polygon(0% 0%, 50% 0%, 100% 50%, 50% 100%, 0% 100%, 50% 50%);*/
+    -webkit-mask-image: linear-gradient(180deg, black, transparent);
+    mask-image: linear-gradient(45deg, black 50%, transparent 70%);
+ 
+ }
+ .multiple_mask2{
+    height: 200px;
+    width: 200px;
+    background: red;
+    clip-path: circle(25px at 20% 20%);/*polygon(0% 0%, 50% 0%, 100% 50%, 50% 100%, 0% 100%, 50% 50%);*/
+    -webkit-mask-image: linear-gradient(180deg, black, transparent);
+    mask-image: linear-gradient(45deg, black 50%, transparent 70%);
+ 
+ }
