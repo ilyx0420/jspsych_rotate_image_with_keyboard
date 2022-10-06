@@ -42,15 +42,15 @@
 
 
   //  var trialduration = 1250; // duration of each trial, unit: ms
-    var trialduration = 5000; // duration of each trial, unit: ms
+    var trialduration = 3000; // duration of each trial, unit: ms
     var stimulitype = 0 // 0: dot ; 1: square
-    var repeti_per_case = 10; // repititions for each participant (of each condition & display)
+    var repeti_per_case = 2; // repititions for each participant (of each condition & display)
     var stim_low = 1; // minimum number of stimuli to be displayed
     var stim_high = 7; // maximum number of stimuli to be displayed
     
 
 
-    var reps_total = repeti_per_case * 3 * (stim_high - stim_low + 1) + 21*1; // #repetitions * 3 conditions * all possible distributions of the stimuli
+    var reps_total = 70;//repeti_per_case * 3 * (stim_high - stim_low + 1) + 21*1; // #repetitions * 3 conditions * all possible distributions of the stimuli
     var n_trials = reps_total ;
 
     /* define instructions trial */
@@ -58,21 +58,14 @@
       type: "html-keyboard-response",
       stimulus: `
          <p>In this experiment, a game board with 117 cells that contain some pieces will appear. <br>The game board is either occluded by a green mesh or fully visible.</p>
-
 <br>
   <div style='float: center;'>A fully visible game board: <br> <img  width = 250px src='img/eg_noc.png'></img> </div>
-
 <br>
   <div style='float: center;'>An occluded game board: <br> <img width = 250px src='img/eg_occ.png'></img> </div>
   
-
-
 <br>
 <div style='float: center;'><p>The game board will disappear after 1.25 seconds, followed by 1 question whose answer can be selected by dragging the slider.  </p></div>
-
-
 <img width = 850px border =1px src='img/eg_slider.png'></img>
-
       
 <br>
         
@@ -90,12 +83,8 @@ var instructions_eg1 = {
       stimulus: `
       <p><b>Example 1</b></p>
  <div style='float: center;'> <img width = 250px src='img/eg_noc.png'></img> </div>
-
          <p>In this example, the game board is not occluded at all. Hence, the answer to the question should be 0. </p>
-
-
   <div style='float: center;'><img  width = 850px border = 1px src='img/eg_slider1.png'></img> </div>
-
         
         <p>Press any key to continue.</p>
       `,
@@ -111,12 +100,8 @@ var instructions_eg2 = {
       stimulus: `
       <p><b>Example 2</b></p>
  <div style='float: center;'> <img class = "ims" width = 250px height = 325 src='img/greenbacknewereg.png'></img> </div>
-
          <p>In this example, the game board is fully occluded. Hence, the answer to the question should be 117. </p>
-
-
   <div style='float: center;'><img  width = 850px border = 1px src='img/eg_slider2.png'></img> </div>
-
         
         <p>Press any key to begin.</p>
       `,
@@ -254,89 +239,39 @@ var instructions_eg2 = {
     /* preload images */
     var preload = {
       type: 'preload',
-      images: ['img/sq2.png', 'img/sq4.png',
-               'img/clr_s1_p1.png', 'img/oc_s1_p1.png','img/noc_s1_p1.png',
-               'img/clr_s1_p2.png', 'img/oc_s1_p2.png','img/noc_s1_p2.png',
-               'img/clr_s2_p1.png', 'img/oc_s2_p1.png','img/noc_s2_p1.png',
-               'img/clr_s2_p2.png', 'img/oc_s2_p2.png','img/noc_s2_p2.png',
-               'img/clr_s3_p1.png', 'img/oc_s3_p1.png','img/noc_s3_p1.png',
-               'img/clr_s3_p2.png', 'img/oc_s3_p2.png','img/noc_s3_p2.png',
-               'img/clr_s4_p1.png', 'img/oc_s4_p1.png','img/noc_s4_p1.png',
-               'img/clr_s4_p2.png', 'img/oc_s4_p2.png','img/noc_s4_p2.png',
-               'img/clr_s5_p1.png', 'img/oc_s5_p1.png','img/noc_s5_p1.png',
-               'img/clr_s5_p2.png', 'img/oc_s5_p2.png','img/noc_s5_p2.png',
-               'img/clr_s6_p1.png', 'img/oc_s6_p1.png','img/noc_s6_p1.png',
-               'img/clr_s6_p2.png', 'img/oc_s6_p2.png','img/noc_s6_p2.png',
-               'img/clr_s7_p1.png', 'img/oc_s7_p1.png','img/noc_s7_p1.png',
-               'img/clr_s7_p2.png', 'img/oc_s7_p2.png','img/noc_s7_p2.png',
-               ]
+      images: ['img/sq2.png', 'img/sq4.png']
     }
-    var images = ['img/clr_s1_p1.png', 'img/oc_s1_p1.png','img/noc_s1_p1.png',
-               'img/clr_s1_p2.png', 'img/oc_s1_p2.png','img/noc_s1_p2.png',
-               'img/clr_s2_p1.png', 'img/oc_s2_p1.png','img/noc_s2_p1.png',
-               'img/clr_s2_p2.png', 'img/oc_s2_p2.png','img/noc_s2_p2.png',
-               'img/clr_s3_p1.png', 'img/oc_s3_p1.png','img/noc_s3_p1.png',
-               'img/clr_s3_p2.png', 'img/oc_s3_p2.png','img/noc_s3_p2.png',
-               'img/clr_s4_p1.png', 'img/oc_s4_p1.png','img/noc_s4_p1.png',
-               'img/clr_s4_p2.png', 'img/oc_s4_p2.png','img/noc_s4_p2.png',
-               'img/clr_s5_p1.png', 'img/oc_s5_p1.png','img/noc_s5_p1.png',
-               'img/clr_s5_p2.png', 'img/oc_s5_p2.png','img/noc_s5_p2.png',
-               ];
 
     var preload_instru = {
       type: 'preload',
       images: ['img/eg_slider.png','img/eg_slider1.png','img/eg_slider2.png','img/greenbacknewereg.png']
     };
 
-    var shapes = [];
-    shapes.push(1); shapes.push(2);//shapes.push(3);//shapes.push(4);
-    var randshapes = jsPsych.randomization.sampleWithReplacement(shapes,reps_total) ;
-
-    /* the number of stimuli on both sides */
-    var stimuliArr_r = [];
+    // --- position of the occluder --- //
+    var occpos = [];
+    occpos.push(1); occpos.push(2);
+    var randpos = jsPsych.randomization.sampleWithReplacement(occpos,reps_total) ;
+ 
+    // --- generate sitmuli array --- // 
     var stimuliArr = []; 
-    var rr = stim_high + stim_low;
 
+    //var possible_nums = jsPsych.randomization.sampleWithoutReplacement(possible_nums,possible_nums.length) ;
 
-    var possible_nums = [];
-   // possible_nums.push(5);
-    possible_nums.push(1);possible_nums.push(2);possible_nums.push(3);possible_nums.push(4);
-    possible_nums.push(5);possible_nums.push(6);possible_nums.push(7);//possible_nums.push(13);possible_nums.push(14);
-    //possible_nums.push(15);
-
-
-//var possible_nums = jsPsych.randomization.sampleWithoutReplacement(possible_nums,possible_nums.length) ;
-
-/*
-    for (var i = 0; i < 11; i++){
-      for (var t = 0; t < repeti_per_case * 2; t++){
-        var shapn = randshapes[i];
-         stimuliArr.push([possible_nums[i],1,true, 10, 1, 1, shapn]); 
-         stimuliArr.push([possible_nums[i],2,true, 10, 2, 1, shapn]); 
-         stimuliArr.push([possible_nums[i],3,true, 10, 3, 1, shapn]);
-      }
+    for (var t = 0; t < repeti_per_case ; t++){ 
+        var condition = 0; //0:test trial; 1:catch trial question left; 2:catch trial quesiton right
+        var occ_proportion = 0.5;
+        stimuliArr.push([0,1, Math.floor(Math.random() * (3-1) + 1)]); // 0.1-0.9; conditon(0:test trial, 1: catch_trial_question_left, 2: catch_trial_question_right), occ_proportion, occ_position
+        stimuliArr.push([0,2, Math.floor(Math.random() * (3-1) + 1)]); // 0.2-0.8
+        stimuliArr.push([0,3, Math.floor(Math.random() * (3-1) + 1)]); // 0.3-0.7
+        stimuliArr.push([0,4, Math.floor(Math.random() * (3-1) + 1)]); // 0.4-0.6
+        stimuliArr.push([0,5, Math.floor(Math.random() * (3-1) + 1)]); // 0.5-0.5
     }
-*/
-
-
-for (var t = 0; t < repeti_per_case * 1; t++){
-     for (var i = 0; i < 7; i++){   
-//var shapn = 1;
-//stimuliArr.push([5,  1, true, 10, 1, 1, shapn]); // size, scale, xx, condition (1: occ) 
-
-         var shapn = randshapes[i];
-         stimuliArr.push([possible_nums[i],1,   true, 10, 1, 1, shapn]); // size, scale, xx, condition (1: occ) 
-         stimuliArr.push([possible_nums[i],0.75,true, 10, 1, 1, shapn]); 
-         stimuliArr.push([possible_nums[i],0.5, true, 10, 1, 1, shapn]);
-      }
-    }
-for (var t = 0; t < 1; t++){
-     for (var i = 0; i < 7; i++){   
-        var shapn = randshapes[i];
-         stimuliArr.push([possible_nums[i],1,   true, 10, 2, 1, shapn]); // size, scale, xx, condition (2: no) 
-         stimuliArr.push([possible_nums[i],0.75,true, 10, 2, 1, shapn]); 
-         stimuliArr.push([possible_nums[i],0.5, true, 10, 2, 1, shapn]);
-      }
+    for (var t = 0; t < repeti_per_case; t++){  
+      var occ_pos = 1; // 1: left; 2: right
+      var occ_proportion = 0.5;
+      //var shapn = randshapes[i];
+      stimuliArr.push([1,5, Math.floor(Math.random() * (3-1) + 1)]); // condition(1:catch_trial_question_left), occ_proportion, occ_pos
+      stimuliArr.push([2,5, Math.floor(Math.random() * (3-1) + 1)]); // condition(2:catch_trial_question_right), occ_proportion, occ_pos
     }
 
 
@@ -348,41 +283,9 @@ for (var t = 0; t < 1; t++){
     var stimuliArray_all = jsPsych.randomization.sampleWithoutReplacement(stimuliArr,stimuliArr.length) ;
     }
 
-//var stimuliArray_all  = stimuliArr;
+    var stimuliArray_all  = stimuliArr;
+    var stimuliArray_still = stimuliArray_all;
 
-    var stimuliArray_still = [];
-    // fake trials
-    var fak = [];
-    for (var i = 0; i < 22; i++){
-             fak.push([1,0,false, 1, 0, -1, i]);
-          }
-    // insert fake trials 
-    for (var f = 0; f<=22; f++){
-            stimuliArray_still.push(fak[f]);
-            //stimuliArray_still.push(fak[f]);
-            // real trials
-            for (var i = 30*f; i< 30*f + 30; i++){
-             // stimuliArray_still.push(stimuliArray_all[i]);
-              stimuliArray_still.push(stimuliArray_all[i]);
-            }
-          }
-
-/////
-/*
-var stimuliArray_stilln = [];
-for (var tt = 0; tt < stimuliArray_still.length; tt++){
-  if (stimuliArray_still[tt][6]!=5 && stimuliArray_still[tt][6]!= 15){
-    stimuliArray_stilln.push(stimuliArray_still[tt]);
-  }
-}
-*/
-
-
-//////
-     var stimuliArray_still = stimuliArray_all;
-    // var stimuliArray_still = stimuliArr;
-
-   //var stimuliArray_still2 = stimuliArray_still;
 
     /* define fixation point */
     var fixation2 = {
@@ -394,6 +297,7 @@ for (var tt = 0; tt < stimuliArray_still.length; tt++){
       
     }
 
+   
     /* define trial - occluder */
     var a = -1; 
     var b = -1;
@@ -436,39 +340,23 @@ for (var tt = 0; tt < stimuliArray_still.length; tt++){
 
     }
       
-
     /* define trial - game board */
     var a1 = -1; 
     var b1 = -1;
     var c1 = -1;
-    var d1 = -1;
-    var e1 = -1;
-    var f1 = -1;
     var reward={
       type: "visual-array-stimuli",
-      set_size: function(){
+      condition: function(){ // trial type: catch trial or test trial
         a1+=1
         return stimuliArray_still[a1][0]
       },
-      set_size_r: function(){
-        f1+=1
-        return stimuliArray_still[f1][3]
-      },
-      condition: function(){
+      occ_proportion: function(){ // occ proportion 
         b1+=1
-        return stimuliArray_still[b1][4]
+        return stimuliArray_still[b1][1]
       },
-      frac: function(){
+      occ_pos:function(){ // position of the occluder
         c1+=1
-        return stimuliArray_still[c1][1]
-      },
-      occ_num: function(){
-        d1+=1
-        return stimuliArray_still[d1][6]
-      },
-      real_trial:function(){
-        e1+=1
-        return stimuliArray_still[e1][5]
+        return stimuliArray_still[c1][2]
       },
       target_size: [21, 21],
       trial_duration: trialduration,
@@ -665,14 +553,17 @@ var q_slider = {
 
 
 
-
+var d1 = -1;
 var q_slider_k = {
-    //type: 'html-slider-response-modi-tilt2',
     type: 'html-response-rotate-image-keyboard',
     stimulus: `<div style="width:700px;">\
         <p>What is the average direction?</p>\
         </div>`,
     require_movement: true,
+    condition: function(){ // trial type: catch trial or test trial
+        d1+=1
+        return stimuliArray_still[d1][0]
+      },
     labels: ['<div>-180</div>', '<div>-90</div>','<div>0</div>','<div>90</div>','<div>180</div>'],
     on_finish: function() {
       jsPsych.data.addProperties({allfinishedtrials: (jsPsych.getProgressBarCompleted() + (1/n_trials)) * n_trials} );
@@ -682,6 +573,9 @@ var q_slider_k = {
       jsPsych.setProgressBar( curr_progress_bar_value + (1/n_trials) );
        },
 };
+
+
+
 
 
 var multi_choice_block_hidpiece = {
@@ -722,27 +616,16 @@ var multi_choice_block_hidpiece = {
       repetitions: reps_total ,
     }
 
-//multi_choice_block_hidpiece,
-
     /* full procedure */
     var full_procedure = {
    //     timeline: [preload, preload_instru , enter_fullscreen, welcome2, consent, demog, survey_deminfo , instructions, instructions_eg1,instructions_eg2, demo_procedure, exist_fullscreen ],
     
-      timeline: [ preload, demo_procedure],
+      timeline: [fixation2, reward,  q_slider_k],
+      repetitions: reps_total ,
     }
 
 
-  //  timeline.push(q_slider)
-//timeline.push(instructions)
-//timeline.push(instructions_eg1)
-//timeline.push(instructions_eg2)
-//timeline.push(multi_choice_block_hidpiece)
-
-
-
-//timeline.push(enter_fullscreen)
-timeline.push(q_slider_k)
-  //  timeline.push(full_procedure)
+    timeline.push(full_procedure)
    // timeline.push(post_survey) 
     timeline.push(tech_q)
     timeline.push(final_trial)
@@ -751,7 +634,7 @@ timeline.push(q_slider_k)
     /* start the experiment */
     jsPsych.init({
       timeline: timeline,
-      preload_images: images,
+      //preload_images: images,
       show_progress_bar: true,
       auto_update_progress_bar: false,
 
