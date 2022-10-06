@@ -97,6 +97,9 @@ jsPsych.plugins['html-response-rotate-image-keyboard'] = (function() {
         default: true,
         description: 'If true, trial will end when user makes a response.'
       },
+      condition:{
+        type: jsPsych.plugins.parameterType.INT,
+      },
     }
   }
 
@@ -111,8 +114,13 @@ jsPsych.plugins['html-response-rotate-image-keyboard'] = (function() {
 html += '<div id="myDIV" style="position: relative; top: -50px"><img src="img/stick.png" height="150" width="20"></div>'; //rotate the image
 
 
-
-    html += '<div id="jspsych-html-slider-response-stimulus">' + trial.stimulus + '</div>';
+  if (trial.condition == 0){
+    html += '<div id="jspsych-html-slider-response-stimulus"><div style="width:700px;"><p>What is the average direction overall?</p></div></div>';
+  }else if (trial.condition == 1){
+    html += '<div id="jspsych-html-slider-response-stimulus"><div style="width:700px;"><p>What is the average direction of the left part?</p></div></div>';
+  }else if (trial.condition == 2){
+    html += '<div id="jspsych-html-slider-response-stimulus"><div style="width:700px;"><p>What is the average direction of the right part?</p></div></div>';
+  }
     html += '<div class="jspsych-html-slider-response-container" style="position:relative; margin: 0 auto 3em auto; ';
    /* if(trial.slider_width !== null){
       html += 'width:'+trial.slider_width+'px;';
@@ -168,7 +176,7 @@ html += '<div id="myDIV" style="position: relative; top: -50px"><img src="img/st
 
 // ------------------------------------------------------------------------------------------
 
-
+document.body.style.overflow = 'hidden';
 
     display_element.querySelector('#jspsych-html-slider-response-next').addEventListener('click', function() {
       // measure response time
