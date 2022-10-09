@@ -50,7 +50,7 @@
     
 
 
-    var reps_total = 70;//repeti_per_case * 3 * (stim_high - stim_low + 1) + 21*1; // #repetitions * 3 conditions * all possible distributions of the stimuli
+    var reps_total = 5 * repeti_per_case;//repeti_per_case * 3 * (stim_high - stim_low + 1) + 21*1; // #repetitions * 3 conditions * all possible distributions of the stimuli
     var n_trials = reps_total ;
 
     /* define instructions trial */
@@ -58,14 +58,21 @@
       type: "html-keyboard-response",
       stimulus: `
          <p>In this experiment, a game board with 117 cells that contain some pieces will appear. <br>The game board is either occluded by a green mesh or fully visible.</p>
+
 <br>
   <div style='float: center;'>A fully visible game board: <br> <img  width = 250px src='img/eg_noc.png'></img> </div>
+
 <br>
   <div style='float: center;'>An occluded game board: <br> <img width = 250px src='img/eg_occ.png'></img> </div>
   
+
+
 <br>
 <div style='float: center;'><p>The game board will disappear after 1.25 seconds, followed by 1 question whose answer can be selected by dragging the slider.  </p></div>
+
+
 <img width = 850px border =1px src='img/eg_slider.png'></img>
+
       
 <br>
         
@@ -83,8 +90,12 @@ var instructions_eg1 = {
       stimulus: `
       <p><b>Example 1</b></p>
  <div style='float: center;'> <img width = 250px src='img/eg_noc.png'></img> </div>
+
          <p>In this example, the game board is not occluded at all. Hence, the answer to the question should be 0. </p>
+
+
   <div style='float: center;'><img  width = 850px border = 1px src='img/eg_slider1.png'></img> </div>
+
         
         <p>Press any key to continue.</p>
       `,
@@ -100,8 +111,12 @@ var instructions_eg2 = {
       stimulus: `
       <p><b>Example 2</b></p>
  <div style='float: center;'> <img class = "ims" width = 250px height = 325 src='img/greenbacknewereg.png'></img> </div>
+
          <p>In this example, the game board is fully occluded. Hence, the answer to the question should be 117. </p>
+
+
   <div style='float: center;'><img  width = 850px border = 1px src='img/eg_slider2.png'></img> </div>
+
         
         <p>Press any key to begin.</p>
       `,
@@ -260,18 +275,22 @@ var instructions_eg2 = {
     for (var t = 0; t < repeti_per_case ; t++){ 
         var condition = 0; //0:test trial; 1:catch trial question left; 2:catch trial quesiton right
         var occ_proportion = 0.5;
-        stimuliArr.push([0,1, Math.floor(Math.random() * (3-1) + 1)]); // 0.1-0.9; conditon(0:test trial, 1: catch_trial_question_left, 2: catch_trial_question_right), occ_proportion, occ_position
-        stimuliArr.push([0,2, Math.floor(Math.random() * (3-1) + 1)]); // 0.2-0.8
-        stimuliArr.push([0,3, Math.floor(Math.random() * (3-1) + 1)]); // 0.3-0.7
-        stimuliArr.push([0,4, Math.floor(Math.random() * (3-1) + 1)]); // 0.4-0.6
-        stimuliArr.push([0,5, Math.floor(Math.random() * (3-1) + 1)]); // 0.5-0.5
+        //stimuliArr.push([0, 1, Math.floor(Math.random() * (3-1) + 1)]); // 0.1-0.9; conditon(0:test trial, 1: catch_trial_question_left, 2: catch_trial_question_right), occ_proportion, occ_position
+        
+        //stimuliArr.push([0, 0.2, Math.floor(Math.random() * (3-1) + 1)]); // 0.2-0.8
+       // stimuliArr.push([0, 0.25, Math.floor(Math.random() * (3-1) + 1)]); // 0.3-0.7
+        stimuliArr.push([0, 0.3, Math.floor(Math.random() * (3-1) + 1)]); // 0.3-0.7
+        stimuliArr.push([0, 0.35, Math.floor(Math.random() * (3-1) + 1)]); // 0.3-0.7
+        stimuliArr.push([0, 0.4, Math.floor(Math.random() * (3-1) + 1)]); // 0.4-0.6
+        stimuliArr.push([0, 0.45, Math.floor(Math.random() * (3-1) + 1)]); // 0.4-0.6
+        stimuliArr.push([0, 0.5, Math.floor(Math.random() * (3-1) + 1)]); // 0.5-0.5
     }
     for (var t = 0; t < repeti_per_case; t++){  
       var occ_pos = 1; // 1: left; 2: right
       var occ_proportion = 0.5;
       //var shapn = randshapes[i];
-      stimuliArr.push([1,5, Math.floor(Math.random() * (3-1) + 1)]); // condition(1:catch_trial_question_left), occ_proportion, occ_pos
-      stimuliArr.push([2,5, Math.floor(Math.random() * (3-1) + 1)]); // condition(2:catch_trial_question_right), occ_proportion, occ_pos
+      stimuliArr.push([1, 0.5, Math.floor(Math.random() * (3-1) + 1)]); // condition(1:catch_trial_question_left), occ_proportion, occ_pos
+      stimuliArr.push([2, 0.5, Math.floor(Math.random() * (3-1) + 1)]); // condition(2:catch_trial_question_right), occ_proportion, occ_pos
     }
 
 
@@ -620,7 +639,8 @@ var multi_choice_block_hidpiece = {
     var full_procedure = {
    //     timeline: [preload, preload_instru , enter_fullscreen, welcome2, consent, demog, survey_deminfo , instructions, instructions_eg1,instructions_eg2, demo_procedure, exist_fullscreen ],
     
-      timeline: [fixation2, reward,  q_slider_k],
+    //  timeline: [reward,  q_slider_k],
+      timeline: [reward],
       repetitions: reps_total ,
     }
 
