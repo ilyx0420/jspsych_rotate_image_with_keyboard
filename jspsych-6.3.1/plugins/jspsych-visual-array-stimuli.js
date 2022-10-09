@@ -55,20 +55,16 @@ plugin.trial = function(display_element, trial) {
 
 
 
-//// --------- FIX PAPER POSITION -------- ////
-var pos_paper_top = 0;  
-var pos_paper_left = 0; 
-
 /// **********************setting the square matrix**********************************///
 //// default settings: stripe matrix: occluded part(0) first, then visible part(1)
 
-var p_occ = trial.occ_proportion * 0.1; // proportion of occluded area
+var p_occ = trial.occ_proportion ; // proportion of occluded area
 var p_vis = 1-p_occ; // proportion of visibla area
 
 
 var stimuli_gap = 20;
 var num_height = 20; // rows of stripes  
-var num_width = 30; // columns of stripes
+var num_width = 38; // columns of stripes
 var stripe_length = 10; // length of the stripe
 
 var cont = -1;
@@ -76,20 +72,25 @@ var pos_x = [];
 var pos_y = [];
 var circlemat = [];
 
+var cont_o = -1;
+var cont_v = -1;
+
 if (trial.occ_pos == 1){ // occluder on the left
   for(let i = 0; i < num_height; i++) {
       circlemat[i] = [];
       for(let j = 0; j < Math.round(num_width*p_occ); j++) { // occluded part (0)
           cont = cont + 1;
+          cont_o = cont_o +1;
           circlemat[i][j] = 0;
-          pos_y[cont] = i*stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 5;
-          pos_x[cont] = j*stimuli_gap;
+          pos_y[cont] = i*stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 16; //0.5*Math.sqrt(2)*stripe_length +
+          pos_x[cont] = j*stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 10;
       }
       for(let j = Math.round(num_width*p_occ); j < num_width; j++) { // visilbe part(1)
+          cont = cont + 1 ;
+          cont_v = cont_v + 1;
           circlemat[i][j] = 1;
-          cont = cont + 1;
-          pos_y[cont] = i*stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 5;
-          pos_x[cont] = j*stimuli_gap ;
+          pos_y[cont] = i*stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 16;
+          pos_x[cont] = j*stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 10;
       }
   }
 }else if (trial.occ_pos == 2){
@@ -97,27 +98,30 @@ if (trial.occ_pos == 1){ // occluder on the left
     circlemat[i] = [];
     for(let j = 0; j < Math.round(num_width*p_vis); j++) { // visible part (1)
         cont = cont + 1;
+        cont_v = cont_v + 1;
         circlemat[i][j] = 1;
-        pos_y[cont] = i*stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 5;
-        pos_x[cont] = j*stimuli_gap;
+        pos_y[cont] = i*stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 16;
+        pos_x[cont] = j*stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 10;
     }
     for(let j = Math.round(num_width*p_vis); j < num_width; j++) { //occluded part(0)
         circlemat[i][j] = 0;
         cont = cont + 1;
-        pos_y[cont] = i*stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 5;
-        pos_x[cont] = j*stimuli_gap ;
+        cont_o = cont_o + 1;
+        pos_y[cont] = i*stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 16;
+        pos_x[cont] = j*stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 10 ;
     }
  }
 }
 
 
 ///*******************determin the orientations of two parts**************************///
-var stddev = 0.5;
+var stddev = 0.3;
 var mean_occ = 0.5; // mean of the occluded part
 var mean_vis = -0.5; // mean of the visible part
 
 var list_vis=[];
-for(var n = 0; n< Math.round(num_width*num_height*p_vis); n++){
+//for(var n = 0; n< Math.round(num_width*num_height*p_vis); n++){
+for(var n = 0; n<= cont_v; n++){
     const u1 = Math.random();
     const u2 = Math.random();
     const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
@@ -125,7 +129,8 @@ for(var n = 0; n< Math.round(num_width*num_height*p_vis); n++){
 }
 
 var list_occ=[];
-for(var n = 0; n<Math.round(num_width*num_height*p_occ); n++){
+//for(var n = 0; n<Math.round(num_width*num_height*p_occ); n++){
+for(var n = 0; n<=cont_o; n++){
     const u1 = Math.random();
     const u2 = Math.random();
     const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
@@ -138,8 +143,11 @@ for(var n = 0; n<Math.round(num_width*num_height*p_occ); n++){
 ///*****************DIESPLAY THE STIMULI*****************************///
 
 //// -------- DEFINE PAPER SIZE --------- ////
-var paper_width = num_width * stimuli_gap;
-var paper_height = num_height * stimuli_gap + 20;
+var pos_paper_top = 0;//- 0.5*Math.sqrt(2)*stripe_length + 10;  
+var pos_paper_left = 0;//- 0.5*Math.sqrt(2)*stripe_length + 10; 
+
+var paper_width = num_width * stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 25;  
+var paper_height = num_height * stimuli_gap + 0.5*Math.sqrt(2)*stripe_length + 25;
 
 display_element.innerHTML += '<div id="jspsych-visual-search-circle-container" style= "position: relative; width:' + paper_width + 'px; height:' + paper_height + 'px; top:'+ pos_paper_top + 'px; left:' + pos_paper_left + 'px;"></div>';
  
@@ -167,6 +175,7 @@ function show_search_array() {
     if ( circlemat[i][j] == 1){ // visible part, default on the right
         cont_vis = cont_vis+1;
         var p = rand_vis[cont_vis];
+        //var p = 0;
         var xx2 = xx1 + stripe_length/Math.sqrt(p**2 + 1);
         var yy2 = yy1 + (stripe_length*p)/Math.sqrt(p**2 + 1);
         var lines = lines + '<line x1="'+xx1+'" y1="'+yy1+'" x2="'+xx2+'" y2="'+yy2+'" style="stroke:rgb(255,0,0);stroke-width:2" />';
@@ -174,6 +183,7 @@ function show_search_array() {
     else if (circlemat[i][j] == 0){ // occluded part, default on the left
         cont_occ = cont_occ +1;
         var p = rand_occ[cont_occ];
+        //var p = 0;
         var xx2 = xx1 + stripe_length/Math.sqrt(p**2 + 1);
         var yy2 = yy1 + (stripe_length*p)/Math.sqrt(p**2 + 1);
         var lines = lines +  '<line x1="'+xx1+'" y1="'+yy1+'" x2="'+xx2+'" y2="'+yy2+'" style="stroke:rgb(0,255,0);stroke-width:2" />';
@@ -187,16 +197,29 @@ function show_search_array() {
   // --- display the stipes & the occluder --- //
 
 //var occ_pos = 2; //'right';
+var platewidth = paper_width -15 //;+20;
+var plateheight = paper_height - 15;
+var platepos = 5;
+var platey = 6;
+
 
 if (trial.occ_pos == 1){ // occluder on the left, default
-    var pos_occluder = 75;
+    var pos_occluder = 74;
     // set stripe positions
 
 }else if(trial.occ_pos == 2){ // occluder on the right, opposite to default setting
-    var pos_occluder = 415;
+    var pos_occluder = 594;
 }
+/* ------ use svg occluder (old version) --- /
 paper.innerHTML = '<div class = "backleft">\
     <svg height="'+paper_height +'" width="'+paper_width+'" >\
+         <defs>\
+          <filter id="blur-out">\
+            <feDropShadow dx="0" dy="0" stdDeviation="4.5"\
+                flood-color="black"/>\
+          </filter>\
+        </defs>\
+     <rect x="'+platepos+'" y="'+platey+'" width="'+platewidth +'" height="'+plateheight+'"  fill = "white" filter= "url(#blur-out)" />\
     '+lines+'\
         <defs>\
           <filter id="blur-out">\
@@ -204,15 +227,55 @@ paper.innerHTML = '<div class = "backleft">\
                 flood-color="black"/>\
           </filter>\
         </defs>\
-     <rect x="'+pos_occluder+'" width="'+5*stimuli_gap+'" height="'+num_height*stimuli_gap+'"  fill = "cyan" filter= "url(#blur-out)" />\
+     <rect x="'+pos_occluder+'" width="'+5*stimuli_gap+'" height="'+num_height*stimuli_gap*1.1+'"  fill = "cyan" filter= "url(#blur-out)" />\
     </svg>\
   </div>';
-  // <circle cx="204" cy="200" r="70" fill = "cyan" filter= "url(#blur-out)"/>\
+*/
 
-  /*    paper.innerHTML = '<div class = "backleft">\<svg height="100" width="100">\
-   <circle cx="50" cy="50" r="40" stroke="blue" stroke-width="5" stroke-dasharray="3" fill="transparent" /></svg>\
+// --- use a 3D occluder --- 
+paper.innerHTML = '<div class = "backleft">\
+    <svg height="'+paper_height +'" width="'+paper_width+'" >\
+         <defs>\
+          <filter id="shadowdown1" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="2" dy="2" />\
+          <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" /><feBlend in="SourceGraphic" in2="blurOut" mode="normal" />\
+          </filter>\
+        </defs>\
+     <rect x="'+platepos+'" y="'+platey+'" width="'+platewidth +'" height="'+plateheight+'"  fill = "white" filter= "url(#shadowdown1)" />\
+    '+lines+'\
+        <defs>\
+          <filter id="shadowdown" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="2" dy="2" />\
+          <feGaussianBlur result="blurOut" in="offOut" stdDeviation="3" /><feBlend in="SourceGraphic" in2="blurOut" mode="normal" />\
+          </filter>\
+        </defs>\
+        <g  filter ="url(#shadowdown)" ><image xlink:href="img/occluder_3d2.png" x = '+pos_occluder+' height = 100% /></g>\
+    </svg>\
   </div>';
-  */
+
+
+// ****** remove occluder to see clearly ****** //
+/*
+paper.innerHTML = '<div class = "backleft">\
+    <svg height="'+paper_height +'" width="'+paper_width+'" >\
+         <defs>\
+          <filter id="shadowdown1" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="2" dy="2" />\
+          <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" /><feBlend in="SourceGraphic" in2="blurOut" mode="normal" />\
+          </filter>\
+        </defs>\
+     <rect x="'+platepos+'" y="'+platey+'" width="'+platewidth +'" height="'+plateheight+'"  fill = "white" filter= "url(#shadowdown1)" />\
+    '+lines+'\
+        <defs>\
+          <filter id="shadowdown" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="2" dy="2" />\
+          <feGaussianBlur result="blurOut" in="offOut" stdDeviation="3" /><feBlend in="SourceGraphic" in2="blurOut" mode="normal" />\
+          </filter>\
+        </defs>\
+        <g  filter ="url(#shadowdown)" ><image xlink:href="img/occluder_3d2.png" x = '+pos_occluder+' height = 100% /></g>\
+    </svg>\
+  </div>';
+*/
+
+// ---------------------------------------------// 
+
+
 
 
     var start_time = Date.now();
