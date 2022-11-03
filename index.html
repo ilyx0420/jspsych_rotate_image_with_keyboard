@@ -42,36 +42,36 @@
 
 
   //  var trialduration = 1250; // duration of each trial, unit: ms
-    var trialduration = 3000; // duration of each trial, unit: ms
+    var trialduration = 1500; // duration of each trial, unit: ms
     var stimulitype = 0 // 0: dot ; 1: square
-    var repeti_per_case = 2; // repititions for each participant (of each condition & display)
-    var stim_low = 1; // minimum number of stimuli to be displayed
-    var stim_high = 7; // maximum number of stimuli to be displayed
+    var repeti_per_case = 1; // repititions for each participant (of each condition & display)
+    var stim_low = 3; // minimum number of stimuli to be displayed
+    var stim_high = 12; // maximum number of stimuli to be displayed
     
 
 
-    var reps_total = 5 * repeti_per_case;//repeti_per_case * 3 * (stim_high - stim_low + 1) + 21*1; // #repetitions * 3 conditions * all possible distributions of the stimuli
+    var reps_total = 36 * repeti_per_case;//repeti_per_case * 3 * (stim_high - stim_low + 1) + 21*1; // #repetitions * 3 conditions * all possible distributions of the stimuli
     var n_trials = reps_total ;
 
     /* define instructions trial */
     var instructions = {
       type: "html-keyboard-response",
       stimulus: `
-         <p>In this experiment, a game board with 117 cells that contain some pieces will appear. <br>The game board is either occluded by a green mesh or fully visible.</p>
+         <p>In this experiment, two boards with texture will appear. <br>The board is either occluded by a green mesh or fully visible.</p>
 
 <br>
-  <div style='float: center;'>A fully visible game board: <br> <img  width = 250px src='img/eg_noc.png'></img> </div>
+  <div style='float: center;'>A fully visible board and an occluded board: <br> <img  width = 520px src='img/intro1.png'></img> </div>
 
 <br>
-  <div style='float: center;'>An occluded game board: <br> <img width = 250px src='img/eg_occ.png'></img> </div>
+  <div style='float: center;'>Two fully visible boards: <br> <img width = 520px src='img/intro3.png'></img> </div>
   
 
 
 <br>
-<div style='float: center;'><p>The game board will disappear after 1.25 seconds, followed by 1 question whose answer can be selected by dragging the slider.  </p></div>
+<div style='float: center;'><p>The boards will disappear after 1 second, followed by 1 question whose answer can be selected by pressing the arrow keys.  </p></div>
 
 
-<img width = 850px border =1px src='img/eg_slider.png'></img>
+<img width = 700px border =1px src='img/intro2.png'></img>
 
       
 <br>
@@ -268,39 +268,56 @@ var instructions_eg2 = {
     var randpos = jsPsych.randomization.sampleWithReplacement(occpos,reps_total) ;
  
     // --- generate sitmuli array --- // 
+    // ~, ~, ~, block[block1:vis/occ, block2: vis/occ, block3: overall, block4: control]
+    
+    var fracnums = [4,5,6,7,8,9,10,11,12]; // vis: 8-16
     var stimuliArr = []; 
+   
+  
+    
 
-    //var possible_nums = jsPsych.randomization.sampleWithoutReplacement(possible_nums,possible_nums.length) ;
-
+    // -- block 1
+    
     for (var t = 0; t < repeti_per_case ; t++){ 
-        var condition = 0; //0:test trial; 1:catch trial question left; 2:catch trial quesiton right
-        var occ_proportion = 0.5;
-        //stimuliArr.push([0, 1, Math.floor(Math.random() * (3-1) + 1)]); // 0.1-0.9; conditon(0:test trial, 1: catch_trial_question_left, 2: catch_trial_question_right), occ_proportion, occ_position
-        
-        //stimuliArr.push([0, 0.2, Math.floor(Math.random() * (3-1) + 1)]); // 0.2-0.8
-       // stimuliArr.push([0, 0.25, Math.floor(Math.random() * (3-1) + 1)]); // 0.3-0.7
-        stimuliArr.push([0, 0.3, Math.floor(Math.random() * (3-1) + 1)]); // 0.3-0.7
-        stimuliArr.push([0, 0.35, Math.floor(Math.random() * (3-1) + 1)]); // 0.3-0.7
-        stimuliArr.push([0, 0.4, Math.floor(Math.random() * (3-1) + 1)]); // 0.4-0.6
-        stimuliArr.push([0, 0.45, Math.floor(Math.random() * (3-1) + 1)]); // 0.4-0.6
-        stimuliArr.push([0, 0.5, Math.floor(Math.random() * (3-1) + 1)]); // 0.5-0.5
+      var rand_fracnums =  jsPsych.randomization.sampleWithReplacement(fracnums,fracnums.length) ;
+      var rand_fracnums =  fracnums;
+      for (var r = 0; r < rand_fracnums.length; r++){
+        stimuliArr.push([0, rand_fracnums[r], 1, 1, Math.floor(Math.random() * (111-70) + 70)]); // 
+        stimuliArr.push([0, rand_fracnums[r], Math.floor(Math.random() * (3-1) + 1), 1, Math.floor(Math.random() * (111-70) + 70)]); // 
+       }
     }
-    for (var t = 0; t < repeti_per_case; t++){  
-      var occ_pos = 1; // 1: left; 2: right
-      var occ_proportion = 0.5;
-      //var shapn = randshapes[i];
-      stimuliArr.push([1, 0.5, Math.floor(Math.random() * (3-1) + 1)]); // condition(1:catch_trial_question_left), occ_proportion, occ_pos
-      stimuliArr.push([2, 0.5, Math.floor(Math.random() * (3-1) + 1)]); // condition(2:catch_trial_question_right), occ_proportion, occ_pos
+
+    // -- block 2
+    for (var t = 0; t < repeti_per_case ; t++){ 
+      var rand_fracnums =  jsPsych.randomization.sampleWithReplacement(fracnums,fracnums.length) ; 
+      for (var r = 0; r < rand_fracnums.length; r++){
+        stimuliArr.push([0, rand_fracnums[r], Math.floor(Math.random() * (3-1) + 1), 2, Math.floor(Math.random() * (111-70) + 70)]); // 
+      }
+    }
+   
+    // -- block 3
+    for (var t = 0; t < repeti_per_case ; t++){ 
+      var rand_fracnums =  jsPsych.randomization.sampleWithReplacement(fracnums,fracnums.length) ; 
+      for (var r = 0; r < rand_fracnums.length; r++){
+        stimuliArr.push([0, rand_fracnums[r], Math.floor(Math.random() * (3-1) + 1), 3, Math.floor(Math.random() * (111-70) + 70)]); // 
+       }
+     }
+
+ 
+    // -- block 4
+    var partial_nums = [0.42, 0.47, 0.52, 0.57, 0.62, 0.66, 0.71, 0.76, 0.81]; 
+    // 0.22: 4 cols ;0.275: 5 cols vis; 0.32: 6 cols; 0.37: 7cols ; 
+    // 0.42: 8 cols; 0.47: 9cols; 0.52: 10cols; 0.57: 11cols vis;
+    // 0.62: 12 vis; 0.66: 13vis; 0.71:14vis; 0.76: 15vis; 0.71: 16vis
+    // var partial_nums = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7];
+    for (var t = 0; t < repeti_per_case ; t++){ 
+      var rand_partial_nums =  jsPsych.randomization.sampleWithReplacement(partial_nums,partial_nums.length) ; 
+      for (var r = 0; r < rand_partial_nums.length; r++){
+        stimuliArr.push([0, rand_partial_nums[r], Math.floor(Math.random() * (3-1) + 1), 4, Math.floor(Math.random() * (111-70) + 70)]); // 
+      }
     }
 
 
-
-    /* randomize the stimuli */
-    var stimuliDemoArray = [];
-    var stimuliDemoArray_r = [];
-    if (randomize){
-    var stimuliArray_all = jsPsych.randomization.sampleWithoutReplacement(stimuliArr,stimuliArr.length) ;
-    }
 
     var stimuliArray_all  = stimuliArr;
     var stimuliArray_still = stimuliArray_all;
@@ -363,19 +380,29 @@ var instructions_eg2 = {
     var a1 = -1; 
     var b1 = -1;
     var c1 = -1;
+    var d1 = -1;
+    var dis = -1;
     var reward={
       type: "visual-array-stimuli",
-      condition: function(){ // trial type: catch trial or test trial
+      condition: function(){ // 
         a1+=1
-        return stimuliArray_still[a1][0]
+        return stimuliArray_all[a1][0]
       },
       occ_proportion: function(){ // occ proportion 
         b1+=1
-        return stimuliArray_still[b1][1]
+        return stimuliArray_all[b1][1]
       },
-      occ_pos:function(){ // position of the occluder
+      occ_pos:function(){ // position of the occluder. 1: occ right, vis left ; 2: occ left, vis right
         c1+=1
-        return stimuliArray_still[c1][2]
+        return stimuliArray_all[c1][2]
+      },
+      block_num:function(){ // question asked. 1: vis, 2: occ, 3: overall, 4: partial(overall)
+        d1+=1
+        return stimuliArray_all[d1][3]
+      },
+      dist:function(){ // question asked. 1: vis, 2: occ, 3: overall, 4: partial(overall)
+        dis+=1
+        return stimuliArray_all[dis][4]
       },
       target_size: [21, 21],
       trial_duration: trialduration,
@@ -572,7 +599,9 @@ var q_slider = {
 
 
 
-var d1 = -1;
+var e1 = -1;
+var f1 = -1;
+var g1 = -1;
 var q_slider_k = {
     type: 'html-response-rotate-image-keyboard',
     stimulus: `<div style="width:700px;">\
@@ -580,8 +609,16 @@ var q_slider_k = {
         </div>`,
     require_movement: true,
     condition: function(){ // trial type: catch trial or test trial
-        d1+=1
-        return stimuliArray_still[d1][0]
+        e1+=1
+        return stimuliArray_all[e1][0]
+      },
+    occ_pos:function(){ // position of the occluder. 1: occ right, vis left ; 2: occ left, vis right
+        f1+=1
+        return stimuliArray_all[f1][2]
+      },
+    block_num:function(){ // question asked. 1: vis, 2: occ, 3: overall, 4: partial(overall)
+        g1+=1
+        return stimuliArray_all[g1][3]
       },
     labels: ['<div>-180</div>', '<div>-90</div>','<div>0</div>','<div>90</div>','<div>180</div>'],
     on_finish: function() {
@@ -640,11 +677,11 @@ var multi_choice_block_hidpiece = {
    //     timeline: [preload, preload_instru , enter_fullscreen, welcome2, consent, demog, survey_deminfo , instructions, instructions_eg1,instructions_eg2, demo_procedure, exist_fullscreen ],
     
     //  timeline: [reward,  q_slider_k],
-      timeline: [reward],
+      timeline: [reward, q_slider_k],
       repetitions: reps_total ,
     }
 
-
+//timeline.push(instructions)
     timeline.push(full_procedure)
    // timeline.push(post_survey) 
     timeline.push(tech_q)
