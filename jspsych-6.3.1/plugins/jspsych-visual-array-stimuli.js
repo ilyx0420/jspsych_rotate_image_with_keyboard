@@ -196,7 +196,7 @@ plugin.trial = function(display_element, trial) {
 
   ///*******************determin the orientations of two parts**************************///
 
-  var deg_center = Math.floor(Math.random() * (136-45) + 45); // 45 -135
+  var deg_center = Math.floor(Math.random() * (126-55) + 55); // 45 -135
 
   var deg_dist = trial.dist; 
   if (Math.random() < 0.5){
