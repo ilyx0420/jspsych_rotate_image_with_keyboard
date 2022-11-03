@@ -100,6 +100,18 @@ jsPsych.plugins['html-response-rotate-image-keyboard'] = (function() {
       condition:{
         type: jsPsych.plugins.parameterType.INT,
       },
+      block_num: {
+        type: jsPsych.plugins.parameterType.INT,
+        pretty_name: 'position of the occluder',
+        default: 1, // 
+        description: 'The maximum duration to wait for a response.'
+      },
+      occ_pos: {
+        type: jsPsych.plugins.parameterType.INT,
+        pretty_name: 'position of the occluder',
+        default: 1, // 1: left; 2: right
+        description: 'The maximum duration to wait for a response.'
+      },
     }
   }
 
@@ -110,17 +122,26 @@ jsPsych.plugins['html-response-rotate-image-keyboard'] = (function() {
 
     var html = '<div id="jspsych-html-slider-response-wrapper" style="margin: 100px 0px;">';
 
-/// ------ rotate the image
-html += '<div id="myDIV" style="position: relative; top: -50px"><img src="img/stick.png" height="150" width="20"></div>'; //rotate the image
+    /// ------ rotate the image
+    html += '<div id="myDIV" style="position: relative; top: -50px"><img src="img/stick.png" height="150" width="20"></div>'; //rotate the image
 
+    /// --- 
+    if (trial.block_num == 4 || trial.block_num == 3){
+        html += '<div id="jspsych-html-slider-response-stimulus"><div style="width:700px;"><p>What is the average direction <span style="color:green;">overall</span><span> ?</span></div></div>';
+    }else if (trial.block_num == 1){ // ask vis
+      if (trial.occ_pos == 1){//pos: occ right, vis left
+        html += '<div id="jspsych-html-slider-response-stimulus"><div style="width:700px;"><p>What is the average direction of the <span style="color:blue;">left</span><span> part?</span></div></div>';
+      }else if (trial.occ_pos == 2){// pos: occ left, vis right
+        html += '<div id="jspsych-html-slider-response-stimulus"><div style="width:700px;"><p>What is the average direction of the <span style="color:#A93226;">right</span><span> part?</span></div></div>';
+      }
+    }else if (trial.block_num == 2){ // ask occ
+      if (trial.occ_pos == 1){//pos: occ right, vis left
+      html += '<div id="jspsych-html-slider-response-stimulus"><div style="width:700px;"><p>What is the average direction of the <span style="color:#A93226;">right</span><span> part?</span></div></div>';
+      }else if (trial.occ_pos == 2){// pos: occ left, vis right
+      html += '<div id="jspsych-html-slider-response-stimulus"><div style="width:700px;"><p>What is the average direction of the <span style="color:blue;">left</span><span> part?</span></div></div>';
+      }
+    }
 
-  if (trial.condition == 0){
-    html += '<div id="jspsych-html-slider-response-stimulus"><div style="width:700px;"><p>What is the average direction overall?</p></div></div>';
-  }else if (trial.condition == 1){
-    html += '<div id="jspsych-html-slider-response-stimulus"><div style="width:700px;"><p>What is the average direction of the left part?</p></div></div>';
-  }else if (trial.condition == 2){
-    html += '<div id="jspsych-html-slider-response-stimulus"><div style="width:700px;"><p>What is the average direction of the right part?</p></div></div>';
-  }
     html += '<div class="jspsych-html-slider-response-container" style="position:relative; margin: 0 auto 3em auto; ';
    /* if(trial.slider_width !== null){
       html += 'width:'+trial.slider_width+'px;';
@@ -131,7 +152,7 @@ html += '<div id="myDIV" style="position: relative; top: -50px"><img src="img/st
    // html += '<input type="range" class="jspsych-slider" value="'+trial.slider_start+'" min="'+trial.min+'" max="'+trial.max+'" step="'+trial.step+'" oninput="this.nextElementSibling.value = this.value '+ -180 +'" id="jspsych-html-slider-response-response"><input disabled style="width: 26px;" placeholder = "0"  id = "nid"></input>';
     
     //html+= '<p id="jspsych-html-slider-response-response">Press <kbd>r</kbd> to rotate.</p>'
-     html+= '<p id="jspsych-html-slider-response-response">Press "RightArrow" to rotate clockwise. Press "LeftArrow" to rotate counter clockwise.</p>'
+     html+= '<p style="font-size:11pt" id="jspsych-html-slider-response-response">Press "RightArrow" to rotate clockwise. Press "LeftArrow" to rotate counter clockwise. <br> Press the Space bar or click the button to continue.</p>'
 
     html += '<div>'
     html += '</div>';
@@ -146,6 +167,8 @@ html += '<div id="myDIV" style="position: relative; top: -50px"><img src="img/st
     html += '<button id="jspsych-html-slider-response-next" class="jspsych-btn" '+ (trial.require_movement ? "disabled" : "") + '>'+trial.button_label+'</button>';
    // html += '<button id="jspsych-html-slider-response-next" class="jspsych-btn">'+trial.button_label+'</button>';
 
+
+
     display_element.innerHTML = html;
 
     var response = {
@@ -155,7 +178,7 @@ html += '<div id="myDIV" style="position: relative; top: -50px"><img src="img/st
 
 
 
-
+  //// --- rotate the stick clockwise or counterclockwise 
    var count = 0;
    document.addEventListener('keydown', function(event){
     //console.log(event);    
@@ -166,14 +189,23 @@ html += '<div id="myDIV" style="position: relative; top: -50px"><img src="img/st
       }
       slider_value = count;
       document.getElementById("myDIV").style.transform = "rotate("+slider_value+"deg)"; // give input value to rotate the image
-  
-   
       if (event.key == "ArrowRight" || event.key == "ArrowLeft"){
          display_element.querySelector('#jspsych-html-slider-response-next').disabled = false;
       }
-
   }); 
 
+
+
+  //// --- submit by pressing "enter" 
+  document.addEventListener("keypress", function(event) {
+    //if (event.key === "Enter") { // If the user presses the "Enter" key on the keyboard
+      if (event.code === "Space") { // If the user presses the "Space" bar on the keyboard
+      // Cancel the default action, if needed
+      event.preventDefault();
+      // Trigger the button element with a click
+      document.getElementById("jspsych-html-slider-response-next").click();
+    }
+  });
 // ------------------------------------------------------------------------------------------
 
 document.body.style.overflow = 'hidden';
