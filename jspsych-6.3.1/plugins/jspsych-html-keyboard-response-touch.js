@@ -73,7 +73,7 @@ jsPsych.plugins["html-keyboard-response-touch"] = (function() {
 
     // store response
     var response = {
-      rt: null,
+  //    rt: null,
       key: null
     };
 
@@ -111,9 +111,9 @@ jsPsych.plugins["html-keyboard-response-touch"] = (function() {
  //display_element.querySelector('#jspsych-html-keyboard-response-stimulus').className += 'responded';
    
       // only record the first response
-      if (response.key == null) {
-        response = info;
-      }
+   //   if (response.key == null) {
+   //     response = info;
+    //  }
 
       if (trial.response_ends_trial) {
         end_trial();
@@ -121,15 +121,15 @@ jsPsych.plugins["html-keyboard-response-touch"] = (function() {
     };
 
     // start the response listener
-    if (trial.choices != jsPsych.NO_KEYS) {
-      var keyboardListener = jsPsych.pluginAPI.getKeyboardResponse({
-        callback_function: after_response,
-        valid_responses: trial.choices,
-        rt_method: 'performance',
-        persist: false,
-        allow_held_key: false
-      });
-    }
+ //   if (trial.choices != jsPsych.NO_KEYS) {
+ //     var keyboardListener = jsPsych.pluginAPI.getKeyboardResponse({
+ //       callback_function: after_response,
+ //       valid_responses: trial.choices,
+ //       rt_method: 'performance',
+ //       persist: false,
+ //       allow_held_key: false
+ //     });
+ //   }
 
     // hide stimulus if stimulus_duration is set
     if (trial.stimulus_duration !== null) {
