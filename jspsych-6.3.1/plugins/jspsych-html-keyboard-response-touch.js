@@ -61,7 +61,7 @@ jsPsych.plugins["html-keyboard-response-touch"] = (function() {
   plugin.trial = function(display_element, trial) {
 
     var new_html = '<div id="jspsych-html-keyboard-response-stimulus">'+trial.stimulus+'</div>';
-    var new_html = '<button ontouchstart=""></button>'
+    var new_html = '<button ontouchstart="" id= “”></button>'
 
     // add prompt
     if(trial.prompt !== null){
@@ -107,8 +107,9 @@ jsPsych.plugins["html-keyboard-response-touch"] = (function() {
 
       // after a valid response, the stimulus will have the CSS class 'responded'
       // which can be used to provide visual feedback that a response was recorded
-      display_element.querySelector('#jspsych-html-keyboard-response-stimulus').className += ' responded';
-
+     // display_element.querySelector('#jspsych-html-keyboard-response-stimulus').className += ' responded';
+ display_element.querySelector('#btch').className += ' responded';
+   
       // only record the first response
       if (response.key == null) {
         response = info;
