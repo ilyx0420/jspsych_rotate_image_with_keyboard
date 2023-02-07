@@ -61,7 +61,7 @@ jsPsych.plugins["html-keyboard-response-touch"] = (function() {
   plugin.trial = function(display_element, trial) {
 
   //  var new_html = '<div id="jspsych-html-keyboard-response-stimulus">'+trial.stimulus+'</div>';
-    var new_html = '<div id = "#jspsych-html-keyboard-response-stimulus" ontouchstart><button type="button" >Click Me!</button></div>';
+    var new_html = '<div id = "#jspsych-html-keyboard-response-stimulus" ontouchstart><button type="button" >Click Me!!</button></div>';
 
     // add prompt
     if(trial.prompt !== null){
@@ -90,9 +90,9 @@ jsPsych.plugins["html-keyboard-response-touch"] = (function() {
 
       // gather the data to store for the trial
       var trial_data = {
-        rt: response.rt,
-        stimulus: trial.stimulus,
-        response: response.key
+        rt:0,
+        stimulus: 0,
+        response: 0
       };
 
       // clear the display
