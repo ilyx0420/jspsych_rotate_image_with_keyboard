@@ -5,6 +5,7 @@
     <script src="jspsych-6.3.1/jspsych.js"></script>
     <script src="jspsych-6.3.1/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.3.1/plugins/jspsych-html-keyboard-response-dropdown.js"></script>
+     <script src="jspsych-6.3.1/plugins/jspsych-html-keyboard-response-touch.js"></script>
     <script src="jspsych-6.3.1/plugins/jspsych-survey-dropdown.js"></script>
     <script src="jspsych-6.3.1/plugins/jspsych-survey-dropdown-new.js"></script>
     <script src="jspsych-6.3.1/plugins/jspsych-html-button-response.js"></script>
@@ -55,7 +56,7 @@
 
     /* define instructions trial */
     var instructions = {
-      type: "html-keyboard-response",
+      type: "html-keyboard-response-touch",
       stimulus: `
          <p>In this experiment, two boards with texture will appear. <br>The board is either occluded by a green mesh or fully visible.</p>
 
