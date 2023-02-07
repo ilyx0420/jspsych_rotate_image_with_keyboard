@@ -73,8 +73,8 @@ jsPsych.plugins["html-keyboard-response-touch"] = (function() {
 
     // store response
     var response = {
-      rt: true,//null,
-      key: true//null
+      rt: null,
+      key: null
     };
 
     // function to end trial when it is time
