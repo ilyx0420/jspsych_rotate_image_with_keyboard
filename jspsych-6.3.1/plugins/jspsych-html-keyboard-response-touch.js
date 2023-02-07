@@ -61,7 +61,7 @@ jsPsych.plugins["html-keyboard-response-touch"] = (function() {
   plugin.trial = function(display_element, trial) {
 
     var new_html = '<div id="jspsych-html-keyboard-response-stimulus">'+trial.stimulus+'</div>';
-    var new_html = '<button ontouchstart="" id= “”></button>'
+    var new_html = '<button ontouchstart="press me"></button>'
 
     // add prompt
     if(trial.prompt !== null){
